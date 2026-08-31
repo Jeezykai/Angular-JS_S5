@@ -1,0 +1,20 @@
+.content-container {
+  display: flex;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+app-about,
+app-skills {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+  }
+}

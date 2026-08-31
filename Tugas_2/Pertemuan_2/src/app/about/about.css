@@ -1,0 +1,48 @@
+.card {
+  background: #1e293b;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #38bdf8;
+}
+
+.divider {
+  width: 40px;
+  height: 3px;
+  background: #38bdf8;
+  margin: 0.5rem 0 1.2rem 0;
+  border-radius: 2px;
+}
+
+.card p {
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.stats-grid {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid #334155;
+  padding-top: 1rem;
+}
+
+.stat-item h3 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #818cf8;
+}
+
+.stat-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
