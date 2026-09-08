@@ -1,0 +1,143 @@
+<main class="dashboard-wrapper">
+  <header class="header">
+    <h1>Angular Directives & Pipe</h1>
+    <p>ngClass, ngStyle, ngModel, Custom Directives & Pipes</p>
+  </header>
+
+  <div class="grid-container">
+    <section class="card">
+      <div class="card-header">
+        <h2>1. ngClass Directive</h2>
+      </div>
+      <div class="card-body">
+        <button (click)="toggleHighlight()" class="btn" [class.active]="isHighlight">
+          <span class="dot"></span>
+          {{ isHighlight ? 'Nonaktifkan Highlight' : 'Aktifkan Highlight' }}
+        </button>
+        <div [ngClass]="{'highlight-box': isHighlight, 'default-box': !isHighlight}">
+          Klik tombol di atas untuk mengubah background teks ini.
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>2. ngStyle Directive</h2>
+      </div>
+      <div class="card-body">
+        <div class="control-group">
+          <div class="field">
+            <label>Warna Teks</label>
+            <div class="color-picker-wrapper">
+              <input type="color" [(ngModel)]="textColor">
+              <span class="color-code">{{ textColor }}</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Ukuran Font</label>
+            <input type="number" [(ngModel)]="fontSize" class="text-input" min="12" max="36">
+          </div>
+        </div>
+        <div class="preview-box">
+          <p [ngStyle]="{'color': textColor, 'font-size': fontSize + 'px'}">
+            Saya suka sekali makan nasi.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>3. ngModel Directive</h2>
+      </div>
+      <div class="card-body">
+        <div class="field" style="margin-bottom: 16px;">
+          <label>Masukkan Nama Anda</label>
+          <input type="text" [(ngModel)]="username" class="text-input" placeholder="Ketik nama...">
+        </div>
+        <div class="greeting-box">
+          <div class="avatar">{{ username ? username.charAt(0).toUpperCase() : '?' }}</div>
+          <div>
+            <span class="greeting-subtitle">User Preview</span>
+            <p class="greeting-text">Halo, <strong>{{ username }}</strong>! Selamat Datang.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>4. Directive Mandiri</h2>
+      </div>
+      <div class="card-body">
+        <div class="field" style="margin-bottom: 16px;">
+          <label>Pilih Warna Hover Highlight:</label>
+          <div class="color-picker-wrapper">
+            <input type="color" 
+                   [value]="highlightColor()" 
+                   (input)="highlightColor.set($any($event.target).value)" />
+            <span class="color-code">{{ highlightColor() }}</span>
+          </div>
+        </div>
+
+        <div class="custom-directive-preview">
+          <h3 appHighlight [color]="highlightColor()" style="padding: 12px; border-radius: 8px; margin: 0; cursor: pointer;">
+            Arahkan kursor ke teks ini: <u>^-^</u>
+          </h3>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>5. Pipe</h2>
+        <p class="subtitle">Isi data di bawah ini untuk menampilkan hasil Pipe</p>
+      </div>
+      
+      <div class="card-body">
+        <div class="form-group">
+          <div class="field">
+            <label>Masukkan nama lengkap:</label>
+            <input type="text" [(ngModel)]="fullName" class="text-input">
+          </div>
+          
+          <div class="field">
+            <label>Masukkan nominal:</label>
+            <input type="number" [(ngModel)]="amount" class="text-input">
+          </div>
+
+          <div class="field">
+            <label>Pilih tanggal:</label>
+            <input type="date" [(ngModel)]="selectedDate" class="text-input">
+          </div>
+        </div>
+
+        <hr class="divider">
+        <div class="results-section">
+          <h3>Hasil Pipe</h3>
+          
+          <div class="result-row">
+            <span class="label-text">Nama</span>
+            <span class="value-text">{{ fullName }}</span>
+          </div>
+
+          <div class="result-row">
+            <span class="label-text">Total</span>
+            <span class="value-text">{{ amount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</span>
+          </div>
+
+          <div class="result-row">
+            <span class="label-text">Tanggal</span>
+            <span class="value-text">{{ selectedDate | date:'dd MMMM yyyy':'':'id-ID' }}</span>
+          </div>
+        </div>
+
+        <div class="results-section" style="margin-top: 20px;">
+          <h3>Hasil Custom Pipe</h3>  
+          <div class="result-row">
+            <span class="label-text">Inisial</span>
+            <span class="value-text">{{ fullName | initials:3 }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
