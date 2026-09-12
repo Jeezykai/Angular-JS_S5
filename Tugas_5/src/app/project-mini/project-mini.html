@@ -1,0 +1,217 @@
+<section class="space-y-6">
+  <div>
+    <h2 class="text-2xl font-bold text-white">4. Mini Project - Design Form Registrasi</h2>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <form [formGroup]="regForm" (ngSubmit)="onSubmit()" class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="firstName" class="block text-xs font-medium text-slate-300 mb-1">First Name <span class="text-red-400">*</span></label>
+          <input
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+            placeholder="Nama depan"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+          @if (regForm.get('firstName')?.invalid && regForm.get('firstName')?.touched) {
+            <p class="text-red-400 text-[10px] mt-1">Nama depan wajib diisi.</p>
+          }
+        </div>
+        <div>
+          <label for="lastName" class="block text-xs font-medium text-slate-300 mb-1">Last Name <span class="text-red-400">*</span></label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+            placeholder="Nama belakang"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+          @if (regForm.get('lastName')?.invalid && regForm.get('lastName')?.touched) {
+            <p class="text-red-400 text-[10px] mt-1">Nama belakang wajib diisi.</p>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label for="email" class="block text-xs font-medium text-slate-300 mb-1">Email <span class="text-red-400">*</span></label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Masukkan email anda"
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+        @if (regForm.get('email')?.invalid && regForm.get('email')?.touched) {
+          <p class="text-red-400 text-[10px] mt-1">Format email tidak valid.</p>
+        }
+      </div>
+
+      <div>
+        <label for="address" class="block text-xs font-medium text-slate-300 mb-1">Address <span class="text-red-400">*</span></label>
+        <input
+          id="address"
+          type="text"
+          formControlName="address"
+          placeholder="Alamat tempat tinggal"
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+        @if (regForm.get('address')?.invalid && regForm.get('address')?.touched) {
+          <p class="text-red-400 text-[10px] mt-1">Alamat wajib diisi.</p>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="rt" class="block text-xs font-medium text-slate-300 mb-1">RT <span class="text-red-400">*</span></label>
+          <input
+            id="rt"
+            type="text"
+            formControlName="rt"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+            placeholder="001"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+          @if (regForm.get('rt')?.invalid && regForm.get('rt')?.touched) {
+            <p class="text-red-400 text-[10px] mt-1">Nomor RT wajib diisi.</p>
+          }
+        </div>
+        <div>
+          <label for="rw" class="block text-xs font-medium text-slate-300 mb-1">RW <span class="text-red-400">*</span></label>
+          <input
+            id="rw"
+            type="text"
+            formControlName="rw"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+            placeholder="002"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+          @if (regForm.get('rw')?.invalid && regForm.get('rw')?.touched) {
+            <p class="text-red-400 text-[10px] mt-1">Nomor RW wajib diisi.</p>
+          }
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="kecamatan" class="block text-xs font-medium text-slate-300 mb-1">Kecamatan <span class="text-red-400">*</span></label>
+          <select
+            id="kecamatan"
+            formControlName="kecamatan"
+            (change)="onKecamatanChange()"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+            <option value="" disabled selected>-- Pilih Kec --</option>
+            @for (kec of kecamatanList; track kec) {
+              <option [value]="kec">{{ kec }}</option>
+            }
+          </select>
+          @if (regForm.get('kecamatan')?.invalid && regForm.get('kecamatan')?.touched) {
+            <p class="text-red-400 text-[10px] mt-1">Kecamatan wajib dipilih.</p>
+          }
+        </div>
+
+        <div>
+          <label for="kelurahan" class="block text-xs font-medium text-slate-300 mb-1">Kelurahan <span class="text-red-400">*</span></label>
+          <select
+            id="kelurahan"
+            formControlName="kelurahan"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+            <option value="" disabled selected>-- Pilih Kel --</option>
+            @for (kel of kelurahanList; track kel) {
+              <option [value]="kel">{{ kel }}</option>
+            }
+          </select>
+          @if (regForm.get('kelurahan')?.invalid && regForm.get('kelurahan')?.touched) {
+            <p class="text-red-400 text-[10px] mt-1">Kelurahan wajib dipilih.</p>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-slate-300 mb-2">Gender <span class="text-red-400">*</span></label>
+        <div class="flex items-center space-x-6">
+          <label class="flex items-center space-x-2 text-sm text-slate-200 cursor-pointer">
+            <input type="radio" value="Laki-laki" formControlName="gender" class="text-indigo-600 focus:ring-indigo-500" />
+            <span>Laki-Laki</span>
+          </label>
+          <label class="flex items-center space-x-2 text-sm text-slate-200 cursor-pointer">
+            <input type="radio" value="Perempuan" formControlName="gender" class="text-indigo-600 focus:ring-indigo-500" />
+            <span>Perempuan</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="space-y-3 pt-2 border-t border-slate-700">
+        <div>
+          <label for="password" class="block text-xs font-medium text-slate-300 mb-1">Password <span class="text-red-400">*</span></label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Minimal 6 karakter"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+          @if (regForm.get('password')?.invalid && regForm.get('password')?.touched) {
+            <p class="text-red-400 text-[10px] mt-1">Password minimal 6 karakter.</p>
+          }
+        </div>
+
+        <div>
+          <label for="confirmPassword" class="block text-xs font-medium text-slate-300 mb-1">Password Confirmation <span class="text-red-400">*</span></label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Ulangi password"
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" />
+          @if (regForm.get('confirmPassword')?.touched && regForm.get('confirmPassword')?.invalid) {
+            <p class="text-red-400 text-[10px] mt-1">Konfirmasi password wajib diisi.</p>
+          }
+        </div>
+
+        @if (regForm.hasError('passwordMismatch') && regForm.get('password')?.valid && regForm.get('confirmPassword')?.touched) {
+          <p class="text-red-400 text-xs font-medium bg-red-950/40 p-2 rounded border border-red-500/30">
+            ⚠️ Password confirmation tidak cocok!
+          </p>
+        }
+      </div>
+
+      <div>
+        <label for="reasonJoin" class="block text-xs font-medium text-slate-300 mb-1">Reason Join</label>
+        <textarea
+          id="reasonJoin"
+          rows="3"
+          formControlName="reasonJoin"
+          placeholder="Tuliskan alasan bergabung di sini"
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"></textarea>
+      </div>
+
+      <div class="flex gap-4 pt-2">
+        <button
+          type="submit"
+          [disabled]="regForm.invalid"
+          class="flex-1 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+          Submit
+        </button>
+        <button
+          type="button"
+          (click)="onReset()"
+          class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium py-2 px-4 rounded-lg transition-colors">
+          Reset
+        </button>
+      </div>
+    </form>
+
+    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+      <h3 class="font-bold text-slate-200">Hasil Submit</h3>
+      
+      @if (submittedData) {
+        <div class="space-y-2">
+          <p class="text-xs text-green-400 font-medium">✅ Data Berhasil Disubmit:</p>
+          <pre class="bg-slate-950 p-4 rounded-lg text-xs text-green-400 overflow-x-auto border border-slate-700">{{ submittedData | json }}</pre>
+        </div>
+      } @else {
+        <div class="p-8 text-center border-2 border-dashed border-slate-700 rounded-xl">
+          <p class="text-slate-400 text-sm">Belum ada data yang disubmit.</p>
+          <p class="text-slate-500 text-xs mt-1">Isi form di sebelah kiri lalu klik tombol <b>Submit</b>.</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

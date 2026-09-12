@@ -1,0 +1,58 @@
+<section class="space-y-6">
+  <div>
+    <h2 class="text-2xl font-bold text-white">1. Validate Form</h2>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <form [formGroup]="validateForm" (ngSubmit)="onSubmit()" class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">Username</label>
+        <input type="text" formControlName="username" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Masukkan nama anda" />
+        @if (validateForm.get('username')?.invalid && validateForm.get('username')?.touched) {
+          <p class="text-red-400 text-xs mt-1">
+            @if (validateForm.get('username')?.errors?.['required']) { Username wajib diisi. }
+            @if (validateForm.get('username')?.errors?.['minlength']) { Minimal 8 karakter. }
+          </p>
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">Email</label>
+        <input type="email" formControlName="email" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Masukkan email anda" />
+        @if (validateForm.get('email')?.invalid && validateForm.get('email')?.touched) {
+          <p class="text-red-400 text-xs mt-1">
+            @if (validateForm.get('email')?.errors?.['required']) { Email wajib diisi. }
+            @if (validateForm.get('email')?.errors?.['email']) { Format email tidak valid. }
+          </p>
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">Usia (17 - 65)</label>
+        <input type="number" min="1" max="65" onkeydown="if(event.key==='-' || event.key==='e' || event.key==='E') event.preventDefault();"  formControlName="age" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Masukkan usia anda" />
+        @if (validateForm.get('age')?.invalid && validateForm.get('age')?.touched) {
+          <p class="text-red-400 text-xs mt-1">
+            @if (validateForm.get('age')?.errors?.['required']) { Usia wajib diisi. }
+            @if (validateForm.get('age')?.errors?.['min']) { Usia minimal 17 tahun. }
+            @if (validateForm.get('age')?.errors?.['max']) { Usia maksimal 65 tahun. }
+          </p>
+        }
+      </div>
+
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+        Submit
+      </button>
+    </form>
+
+    <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+      <h3 class="font-bold text-slate-200">Status Form</h3>
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="bg-slate-900 p-2 rounded">Status: <span [class]="validateForm.valid ? 'text-green-400' : 'text-red-400'">{{ validateForm.status }}</span></div>
+        <div class="bg-slate-900 p-2 rounded">Touched: <span class="text-yellow-400">{{ validateForm.touched }}</span></div>
+        <div class="bg-slate-900 p-2 rounded">Pristine: <span class="text-blue-400">{{ validateForm.pristine }}</span></div>
+        <div class="bg-slate-900 p-2 rounded">Dirty: <span class="text-purple-400">{{ validateForm.dirty }}</span></div>
+      </div>
+      <pre class="bg-slate-950 p-4 rounded-lg text-xs text-green-400 overflow-x-auto">{{ validateForm.value | json }}</pre>
+    </div>
+  </div>
+</section>

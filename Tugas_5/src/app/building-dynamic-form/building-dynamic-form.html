@@ -1,0 +1,63 @@
+<section class="space-y-6">
+  <div>
+    <h2 class="text-2xl font-bold text-white">2. Building Dynamic Forms</h2>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+      @for (q of questions; track q.key) {
+        <div>
+          <label [for]="q.key" class="block text-sm font-medium text-slate-300 mb-1">
+            {{ q.label }} @if (q.required) { <span class="text-red-400">*</span> }
+          </label>
+
+          <div [ngSwitch]="q.controlType">
+            <input
+              *ngSwitchCase="'textbox'"
+              [id]="q.key"
+              [type]="q.type || 'text'"
+              [formControlName]="q.key"
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-indigo-500"/>
+
+            <select
+              *ngSwitchCase="'dropdown'"
+              [id]="q.key"
+              [formControlName]="q.key"
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-indigo-500">
+              <option value="" disabled selected>-- Pilih {{ q.label }} --</option>
+              @for (opt of q.options; track opt.key) {
+                <option [value]="opt.key">{{ opt.value }}</option>
+              }
+            </select>
+          </div>
+
+          @if (dynamicForm.get(q.key)?.invalid && dynamicForm.get(q.key)?.touched) {
+            <p class="text-red-400 text-xs mt-1">
+              @if (dynamicForm.get(q.key)?.errors?.['required']) { {{ q.label }} wajib diisi/dipilih. }
+              @if (dynamicForm.get(q.key)?.errors?.['minlength']) { {{ q.label }} minimal 8 karakter. }
+              @if (dynamicForm.get(q.key)?.errors?.['email']) { Format {{ q.label }} tidak valid. }
+            </p>
+          }
+        </div>
+      }
+
+      <button
+        type="submit"
+        [disabled]="dynamicForm.invalid"
+        class="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg transition-colors mt-4">
+        Submit Form
+      </button>
+    </form>
+
+      <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 space-y-4">
+        <h3 class="font-bold text-slate-200">Status Form</h3>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="bg-slate-900 p-2 rounded">Status: <span [class]="dynamicForm.valid ? 'text-green-400' : 'text-red-400'">{{ dynamicForm.status }}</span></div>
+        <div class="bg-slate-900 p-2 rounded">Touched: <span class="text-yellow-400">{{ dynamicForm.touched }}</span></div>
+        <div class="bg-slate-900 p-2 rounded">Pristine: <span class="text-blue-400">{{ dynamicForm.pristine }}</span></div>
+        <div class="bg-slate-900 p-2 rounded">Dirty: <span class="text-purple-400">{{ dynamicForm.dirty }}</span></div>
+      </div>
+      <pre class="bg-slate-950 p-4 rounded-lg text-xs text-green-400 overflow-x-auto">{{ dynamicForm.value | json }}</pre>
+    </div>
+  </div>
+</section>
